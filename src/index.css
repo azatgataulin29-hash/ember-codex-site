@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f3eee3;
+  --color-paper-2: #faf7f0;
+  --color-paper-3: #e9e3d5;
+  --color-ink: #1d1812;
+  --color-ink-soft: #4a4238;
+  --color-muted: #6b6152;
+  --color-ember: #c8501a;
+  --color-ember-deep: #9c3a0e;
+  --color-bean: #b9bd8f;
+  --color-line: rgba(29, 24, 18, 0.16);
+  --color-line-strong: rgba(29, 24, 18, 0.4);
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* faint baseline grid */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(29, 24, 18, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29, 24, 18, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+::selection {
+  background: var(--color-ember);
+  color: var(--color-paper-2);
+}
+
+/* ---------- shared ---------- */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-ember);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.eyebrow::before {
+  content: "";
+  width: 30px;
+  height: 1px;
+  background: var(--color-ember);
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 4.6vw, 3.8rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+.section-title em {
+  font-style: italic;
+  color: var(--color-ember);
+}
+
+.section-sub {
+  color: var(--color-muted);
+  font-size: 15px;
+  max-width: 420px;
+  line-height: 1.7;
+}
+
+.hairline { border-color: var(--color-line); }
+.strong-line { border-color: var(--color-line-strong); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 30px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 999px;
+  color: var(--color-ink);
+  background: transparent;
+  transition: all 0.25s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-ember {
+  background: var(--color-ember);
+  border-color: var(--color-ember);
+  color: var(--color-paper-2);
+}
+.btn-ember:hover { background: var(--color-ember-deep); border-color: var(--color-ember-deep); }
+.btn-ink {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-paper-2);
+}
+.btn-ink:hover { background: var(--color-ember); border-color: var(--color-ember); }
+.btn-ghost:hover { border-color: var(--color-ink); background: var(--color-ink); color: var(--color-paper-2); }
+
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* reveal on scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marquee 32s linear infinite;
+}
+
+/* pulse dot */
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.75); }
+}
+.pulse-dot { animation: pulseDot 1.8s ease-in-out infinite; }
+
+/* roast curve draw */
+@keyframes drawCurve {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+.curve-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: drawCurve 3s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
+}
+.ember-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: drawCurve 3s cubic-bezier(0.4, 0, 0.2, 1) 1.4s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .curve-path, .ember-path { animation: none; stroke-dashoffset: 0; }
+  .marquee-track { animation: none; }
+}

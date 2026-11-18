@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://embercodex.example.com/sitemap.xml
